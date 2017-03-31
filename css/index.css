@@ -50,16 +50,16 @@ a{
 }
 .iframe_left{
 	height: 700px;
-	width: 250px;
+	width: 200px;
 	margin-top: 80px;
 	border: none;
 	/*background-color:yellow;*/
 }
 .iframe_main{
 	height: 700px;
-	width: 900px;
+	width: 950px;
 	border: none;
-	background-color: red;
+	/*background-color: red;*/
 	float: right;
 	margin-top: 80px;
 }
