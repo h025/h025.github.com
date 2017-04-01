@@ -22,7 +22,17 @@
 		</div>
 		<div class="main">
 			<iframe class="iframe_left" src="html/ifram_left.html" name="iframe_left"></iframe>
-			<iframe class="iframe_main" src="html/home.html" name="iframe_main"></iframe>
+			<iframe class="iframe_main" id="iframe_main" onload="changeFrameHeight()" src="html/home.html" name="iframe_main"></iframe>
 		</div>
+		<script type="text/javascript">
+            function changeFrameHeight(){
+                var ifm= document.getElementById("iframe_main"); 
+                   console.log(ifm)
+                    ifm.height=document.documentElement.clientHeight;
+                   }
+            window.onresize=function(){  
+            changeFrameHeight();
+                } 
+		</script>
 	</body>
 </html>
