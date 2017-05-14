@@ -1,38 +1,127 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="css/index.css"/>
-		<title>Henry'blog</title>
-		<link rel="icon" href="img/hudong.ico"/>
-	</head>
-	<body>
-		<div class="top">
-			<div>
-				<h2><span><a href="">Henry</a></span>welcome to you</h2>
-				<ul>
-					<li><a href="html/contactMe.html" target="iframe_main">联系我</a></li>
-					<li><a href="html/myCenter.html" target="iframe_left">个人中心</a></li>
-					<li><a href="html/share.html" target="iframe_left">技术分享</a></li>
-					<li><a href="html/photo.html" target="iframe_left">照片</a></li>
-					<li><a href="html/diary.html" target="iframe_left">日志</a></li>
-					<li><a href="">首页</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="main">
-			<iframe class="iframe_left" src="html/ifram_left.html" name="iframe_left"></iframe>
-			<iframe class="iframe_main" id="iframe_main" onload="changeFrameHeight()" src="html/home.html" name="iframe_main"></iframe>
-		</div>
-		<script type="text/javascript">
-            function changeFrameHeight(){
-                var ifm= document.getElementById("iframe_main"); 
-                   console.log(ifm)
-                    ifm.height=document.documentElement.clientHeight;
-                   }
-            window.onresize=function(){  
-            changeFrameHeight();
-                } 
-		</script>
-	</body>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>Henry'blog</title>
+    <link rel="icon" href="img/hudong.ico"/>
+    <style type=text/css>
+        .main{
+            margin-top: 80px;
+        }
+        .main>div{
+            width: 1000px;
+            margin: auto;
+            background-color: rgba(24,24,24,0.5);
+        }
+        .main h1{
+            font-family: 'Rage Italic','Lucida Handwriting','华文行楷','CommercialScript BT','Vivaldi','Noteworthy','SignPainter';
+            font-size: 80px;
+            color: #d2cecb;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 30px;
+        }
+        .main p{
+            color: #535251;
+            font-size: 30px;
+            width: 680px;
+            margin: auto;
+        }
+        .main .p{
+            width: 320px;
+            float: right;
+            margin-top: 20px;
+            margin-right: 50px;
+        }
+        .main_top{
+            height: 330px;
+        }
+        .imgs{
+            width: 100%;
+            height: 340px;
+            position: relative;
+        }
+
+        .imgs div{
+            position: absolute;
+            width: 280px;
+            height: 237px;
+            background-repeat: no-repeat;
+            -webkit-background-size:cover;
+            background-size: 100% 100%;
+            background-position: center center;
+        }
+        .img1{
+            background-image: url(img/home1.png);
+            top: 76px;
+            left: 139px;
+        }
+        .img2{
+            background-image: url(img/home2.png);
+            top: -50px;
+            left: 362px;
+        }
+        .img3{
+            background-image: url(img/home3.png);
+            top: 76px;
+            left: 584px;
+        }
+        .top ul li:last-child{
+            color: #666;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <div>
+            <h2><span><a href="">Henry</a></span>welcome to you</h2>
+            <ul>
+                <li><a href="aboutMe/aboutMe.html" target="_self">关于我</a></li>
+                <li><a href="share/share.html" target="_self">技术分享</a></li>
+                <li><a href="photo/photo.html" target="_self">照片</a></li>
+                <li><a href="diary/diary.html" target="_self">日志</a></li>
+                <li>首页</li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        <div>
+            <div class="main_top">
+                <h1>Hi , I am Henry</h1>
+                <p>Try not to become a man of success but rather to become a man of value.</p>
+                <p class="p">-----Albert.Einstein</p>
+            </div>
+        </div>
+        <div class="imgs">
+            <div class="img1"></div>
+            <div class="img2"></div>f
+            <div class="img3"></div>
+        </div>
+    </div>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
