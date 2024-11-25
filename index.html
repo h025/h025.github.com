@@ -2,209 +2,174 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>视频资源查看</title>
-    <link rel="stylesheet" href="./lib/elementPlus/index.css">
-    <script src="./lib/jquery-3.7.1.js"></script>
-    <script src="./lib/vue.global.js"></script>
-    <script src="./lib/axios.js"></script>
-    <script src="./lib/elementPlus/index.full.js"></script>
-    <script src="./lib/elementPlus/zh-cn.js"></script>
-    <script src="./lib/tailwindcss.3.4.15.js"></script>
-    <script src="./js/index.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频资源查看</title>
+  <link rel="stylesheet" href="./lib/elementPlus/index.css">
+  <script src="./lib/jquery-3.7.1.js"></script>
+  <script src="./lib/vue.global.js"></script>
+  <script src="./lib/axios.js"></script>
+  <script src="./lib/elementPlus/index.full.js"></script>
+  <script src="./lib/elementPlus/zh-cn.js"></script>
+  <script src="./lib/tailwindcss.3.4.15.js"></script>
+  <script src="./js/index.js"></script>
 </head>
 
 <body>
 <div id="app">
-    <div class="py-20 px-10" v-loading="loading">
-        <div class="flex justify-around items-center flex-wrap gap-10">
-            <div
-                v-for="info in videoList"
-                :key="info.src"
-                class="w-300 h-200 flex items-center justify-center"
-            >
-                <a
-                   :href="getHref(info)"
-                   class="w-300 h-200 flex items-center justify-center"
-                >
-                    <el-image
-                        :src="info.images[0] ||'./imgs/defaut.jpg'"
-                        fit="cover"
-                        loading="lazy"
-                        class="w-full h-full"
-                    ></el-image>
-                </a>
-            </div>
-        </div>
-        <div class="flex justify-end ">
-            <el-pagination
-                    background
-                    layout="prev, pager, next, jumper"
-                    :page-count="pagesList.length"
-                    v-model:current-page="currentPage"
-            ></el-pagination>
-        </div>
+  <div class="py-20 px-10" v-loading="loading">
+    <div class="flex justify-around items-center flex-wrap gap-10">
+      <div
+        v-for="info in videoList"
+        :key="info.src"
+        class="w-300 h-200 flex items-center justify-center"
+      >
+        <a
+          :href="getHref(info)"
+          class="w-300 h-200 flex items-center justify-center"
+        >
+          <el-image
+            :src="info.images[0] ||'./imgs/defaut.jpg'"
+            fit="cover"
+            loading="lazy"
+            class="w-full h-full"
+          ></el-image>
+        </a>
+      </div>
     </div>
+    <div class="flex justify-end ">
+      <el-pagination
+        background
+        layout="prev, pager, next, jumper"
+        :page-count="pagesList.length"
+        v-model:current-page="currentPage"
+      ></el-pagination>
+    </div>
+  </div>
 </div>
 
 <script>
-    const ONE_DAY = 24 * 60 * 60 * 1000;
+  const ONE_DAY = 24 * 60 * 60 * 1000;
 
-    const App = {
-        data() {
-            return {
-                loading: false,
-                pagesList: [],
-                currentPage: 0,
-                videoList: [],
-                videoSrc: ''
-            }
-        },
-        watch: {
-            currentPage() {
-                this.getVideoList()
-            }
-        },
-        mounted() {
-            // // 模拟从服务器获取视频列表数据
-            this.loading = true;
-            // axios({
-            //     method: 'get',
-            //     url: baseUrl, // 替换为实际的接口地址
-            //     headers: { 'Content-Type': 'application/json' }
-            // }).then(response => {
-            //     console.log($(response.data).find('body pre a'));
-            //     // this.videos = response.data;
-            // });
-            let response = `
-            
-            <html>
-            <head><title>Index of /</title></head>
-            <body>
-            <h1>Index of /</h1><hr><pre><a href="../">../</a>
-            <a href="20230725/">20230725/</a>                                          20-Jun-2024 23:01                   -
-            <a href="20230726/">20230726/</a>                                          23-Jun-2024 21:43                   -
-            <a href="20230727/">20230727/</a>                                          24-Jun-2024 01:23                   -
-            <a href="20230728/">20230728/</a>                                          24-Jun-2024 18:10                   -
-            <a href="20230729/">20230729/</a>                                          24-Jun-2024 21:30                   -
-            <a href="20230730/">20230730/</a>                                          25-Jun-2024 03:20                   -
-            <a href="20230731/">20230731/</a>                                          25-Jun-2024 17:40                   -
-            <a href="20230801/">20230801/</a>                                          25-Jun-2024 19:20                   -
-            <a href="20230802/">20230802/</a>                                          25-Jun-2024 19:50                   -
-            <a href="20230803/">20230803/</a>                                          25-Jun-2024 21:10                   -
-            <a href="20230804/">20230804/</a>                                          25-Jun-2024 22:10                   -
-            <a href="20230806/">20230806/</a>                                          25-Jun-2024 23:10                   -
-            <a href="20230807/">20230807/</a>                                          26-Jun-2024 01:00                   -
-            <a href="20230808/">20230808/</a>                                          26-Jun-2024 02:40                   -
-            <a href="20230809/">20230809/</a>                                          26-Jun-2024 16:30                   -
-            <a href="20230810/">20230810/</a>                                          26-Jun-2024 17:50                   -
-            <a href="20241227/">20241227/</a>                                          09-Nov-2024 19:36                   -
-            <a href="20241228/">20241228/</a>                                          09-Nov-2024 19:36                   -
-            <a href="20241229/">20241229/</a>                                          09-Nov-2024 19:36                   -
-            <a href="20241230/">20241230/</a>                                          09-Nov-2024 19:36                   -
-            <a href="20241231/">20241231/</a>                                          09-Nov-2024 19:36                   -
-            <a href="advertise/">advertise/</a>                                         24-Nov-2024 08:08                   -
-            <a href="pages/">pages/</a>                                             29-Oct-2024 18:10                   -
-            <a href="waterfile/">waterfile/</a>                                         24-Oct-2024 16:41                   -
-            </pre><hr></body>
-            </html>
-            
-                        `
-            const list = this.parseHtml(response)
-            this.pagesList = list.slice(1, -3)
-            this.loading = false;
-            this.currentPage = 1
-        },
-        methods: {
-            parseHtml(htmlString, parentPath = '') {
-                const html = $(htmlString).find('a');
-                let list = []
-                $.each(html, (_, item) => {
-                    list.push({
-                        text: $(item).text(),
-                        href: parentPath + $(item).attr('href')
-                    })
-                })
-                return list
-            },
-            cacheData(path, data) {
-                localStorage.setItem(path, JSON.stringify({
-                    lastModified: Date.now(),
-                    data,
-                }))
-            },
-            getCacheData(path) {
-                const cacheDataString = localStorage.getItem(path)
-                if (cacheDataString) {
-                    const cacheData = JSON.parse(cacheDataString)
-                    if (Date.now() - cacheData.lastModified < ONE_DAY) {
-                        return cacheData.data
-                    }
-                }
-                return null
-            },
-            getVideoList() {
-                console.log(this.pagesList);
-                console.log(this.currentPage);
-                const path = this.pagesList[this.currentPage - 1].href
-                const cacheData = this.getCacheData(path)
-                if (cacheData) {
-                    this.videoList = cacheData
-                    return
-                }
-                this.loading = true
-                axios.get(baseUrl + path)
-                    .then(async response => {
-                        // this.videos = response.data;
-                        // console.log(response.data);
-                        const list = this.parseHtml(response.data, path).slice(1)
-                        const infoList = []
-                        for (const item of list) {
-                            const videoInfo = await this.getVideoInfo(item.href)
-                            if (videoInfo) {
-                                infoList.push(videoInfo)
-                            }
-                        }
-                        this.videoList = infoList
-                        this.loading = false
-                        this.cacheData(path, infoList)
-                    })
-            },
-            getVideoInfo(path) {
-                return axios.get(baseUrl + path)
-                    .then(async response => {
-                        const list = this.parseHtml(response.data, path).slice(1)
-                        if (list.some(i => i.text === 'index.m3u8')) {
-                            const images = await this.getImagesList(path + 'image/')
-                            return {
-                                src: baseUrl + path + 'index.m3u8',
-                                images
-                            }
-                        }
-                        return null
-                    })
-            },
-            getImagesList(path) {
-                return axios.get(baseUrl + path)
-                    .then(response => {
-                        const list = this.parseHtml(response.data, path).slice(1)
-                        return list.map(item => baseUrl + item.href)
-                    })
-                    .catch(() => [])
-            },
-            getHref(info) {
-                const formattedParams =  btoa(encodeURIComponent(JSON.stringify(info)))
-                return `./detail.html?data=${formattedParams}`
-            }
-        }
-    }
-
-    Vue.createApp(App)
-        .use(ElementPlus, {
-            locale: ElementPlusLocaleZhCn,
+  const App = {
+    data() {
+      return {
+        loading: false,
+        pagesList: [],
+        currentPage: 0,
+        videoList: [],
+        videoSrc: ''
+      }
+    },
+    watch: {
+      currentPage() {
+        this.getVideoList()
+      }
+    },
+    mounted() {
+      const cacheData = this.getCacheData(baseUrl)
+      if (cacheData) {
+        this.pagesList = cacheData
+        this.currentPage = 1
+        return
+      }
+      this.loading = true;
+      axios.get(baseUrl)
+        .then(response => {
+          const list = this.parseHtml(response.data)
+          this.pagesList = list.slice(1, -3)
+          this.loading = false;
+          this.currentPage = 1
+          this.cacheData(baseUrl, this.pagesList)
+        });
+    },
+    methods: {
+      parseHtml(htmlString, parentPath = '') {
+        const html = $(htmlString).find('a');
+        let list = []
+        $.each(html, (_, item) => {
+          list.push({
+            text: $(item).text(),
+            href: parentPath + $(item).attr('href')
+          })
         })
-        .mount('#app')
+        return list
+      },
+      cacheData(path, data) {
+        localStorage.setItem(path, JSON.stringify({
+          lastModified: Date.now(),
+          data,
+        }))
+      },
+      getCacheData(path) {
+        const cacheDataString = localStorage.getItem(path)
+        if (cacheDataString) {
+          const cacheData = JSON.parse(cacheDataString)
+          if (Date.now() - cacheData.lastModified < ONE_DAY) {
+            return cacheData.data
+          }
+        }
+        return null
+      },
+      getVideoList() {
+        const path = this.pagesList[this.currentPage - 1].href
+        const cacheData = this.getCacheData(path)
+        if (cacheData) {
+          this.videoList = cacheData
+          return
+        }
+        this.loading = true
+        axios.get(baseUrl + path)
+          .then(async response => {
+            // this.videos = response.data;
+            // console.log(response.data);
+            const list = this.parseHtml(response.data, path).slice(1)
+            const infoList = []
+            for (const item of list) {
+              const videoInfo = await this.getVideoInfo(item.href)
+              if (videoInfo) {
+                infoList.push(videoInfo)
+              }
+            }
+            this.videoList = infoList
+            this.loading = false
+            this.cacheData(path, infoList)
+          })
+      },
+      getVideoInfo(path) {
+        return axios.get(baseUrl + path)
+          .then(async response => {
+            const list = this.parseHtml(response.data, path).slice(1)
+            if (list.some(i => i.text === 'index.m3u8')) {
+              const images = await this.getImagesList(path + 'image/')
+              return {
+                src: baseUrl + path + 'index.m3u8',
+                images
+              }
+            }
+            return null
+          })
+      },
+      getImagesList(path) {
+        return axios.get(baseUrl + path)
+          .then(response => {
+            const list = this.parseHtml(response.data, path).slice(1)
+            return list.map(item => baseUrl + item.href)
+          })
+          .catch(() => [])
+      },
+      getHref(info) {
+        const formattedParams = btoa(encodeURIComponent(JSON.stringify(info)))
+        return `./detail.html?data=${formattedParams}`
+      }
+    }
+  }
+
+  Vue.createApp(App)
+    .use(ElementPlus, {
+      locale: ElementPlusLocaleZhCn,
+    })
+    .mount('#app')
 </script>
 </body>
 
