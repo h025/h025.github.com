@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频资源查看</title>
+  <link rel="stylesheet" href="./lib/elementPlus/index.css">
+  <script src="./lib/jquery-3.7.1.js"></script>
+  <script src="./lib/vue.global.js"></script>
+  <script src="./lib/axios.js"></script>
+  <script src="./lib/elementPlus/index.full.js"></script>
+  <script src="./lib/elementPlus/zh-cn.js"></script>
+  <script src="./lib/tailwindcss.3.4.15.js"></script>
+  <script src="./js/index.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.href.split('?')[1]);
+    let parsedParams = {}
+    for (const [key, value] of params) {
+      if (key === 'data') {
+        parsedParams = JSON.parse(decodeURIComponent(atob(value)))
+      }
+    }
+    console.log("解析后的URL参数：", parsedParams);
+  </script>
+</head>
+
+<body>
+<div id="app">
+  <div class="py-20 px-10">
+    <template v-if="images.length">
+      <div v-for="(image, index) in images">
+        <el-image
+                :src="image"
+                fit="cover"
+                loading="lazy"
+                preview-teleported
+                :initial-index="index"
+                :preview-src-list="images"
+        ></el-image>
+      </div>
+    </template>
+    <video class="w-full" :src="videoSrc" controls></video>
+  </div>
+</div>
+
+<script>
+  const App = {
+    data() {
+      return {
+        images: parsedParams.images || [],
+        videoSrc : parsedParams.src || '',
+      }
+    },
+    // mounted() {
+    //   if (Hls.isSupported()) {
+    //     const hls = new Hls();
+    //     hls.loadSource(this.videoSrc);
+    //     hls.attachMedia(this.$refs.videoEl);
+    //     hls.on(Hls.Events.MANIFEST_PARSED, () => {
+    //       videoEl.value.play();
+    //     });
+    //   } else if (this.$refs.videoEl.canPlayType('application/vnd.apple.mpegURL')) {
+    //     this.$refs.src = this.videoSrc;
+    //     this.$refs.load();
+    //     this.$refs.videoEl.play();
+    //   }
+    // },
+  }
+
+  Vue.createApp(App)
+          .use(ElementPlus, {
+            locale: ElementPlusLocaleZhCn,
+          })
+          .mount('#app')
+</script>
+</body>
+
+</html>
