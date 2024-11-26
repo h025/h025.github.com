@@ -40,7 +40,13 @@
         ></el-image>
       </div>
     </template>
-    <video class="w-full" :src="videoSrc" controls></video>
+    <video v-if="isApple" class="w-full" :src="videoSrc" controls></video>
+    <template v-else>
+      <div>
+        非Apple设备，由于不原生支持HLS，需要配合浏览器插件播放
+      </div>
+      <el-button @click="openVideo">打开视频</el-button>
+    </template>
   </div>
 </div>
 
@@ -50,6 +56,11 @@
       return {
         images: parsedParams.images || [],
         videoSrc: parsedParams.src || '',
+      }
+    },
+    computed: {
+      isApple() {
+        return /macintosh|mac os x/i.test(navigator.userAgent);
       }
     },
     // mounted() {
@@ -66,6 +77,11 @@
     //     this.$refs.videoEl.play();
     //   }
     // },
+    methods: {
+      openVideo() {
+        window.open(this.videoSrc);
+      }
+    }
   }
 
   Vue.createApp(App)

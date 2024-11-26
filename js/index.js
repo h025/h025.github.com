@@ -8,4 +8,4 @@ tailwind.config = {
     }
 }
 
-const baseUrl = 'http://137.175.55.201:8081/';
+const baseUrl = 'your.video.website';
